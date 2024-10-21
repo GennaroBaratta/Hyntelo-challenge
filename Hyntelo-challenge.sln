@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyntelo-challenge.Server", "Hyntelo-challenge.Server\Hyntelo-challenge.Server.csproj", "{EE5D63E6-D575-4054-992B-73640F7C7080}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "hyntelo-challenge.client", "hyntelo-challenge.client\hyntelo-challenge.client.esproj", "{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hyntelo-challange.Tests", "Hyntelo-challange.Tests\Hyntelo-challange.Tests.csproj", "{191BAE51-5086-4EE0-9D50-F865035644F4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE5D63E6-D575-4054-992B-73640F7C7080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5D63E6-D575-4054-992B-73640F7C7080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5D63E6-D575-4054-992B-73640F7C7080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5D63E6-D575-4054-992B-73640F7C7080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDDB6FD3-AB07-45D4-A3E4-3A7C915E21F6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{191BAE51-5086-4EE0-9D50-F865035644F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191BAE51-5086-4EE0-9D50-F865035644F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191BAE51-5086-4EE0-9D50-F865035644F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191BAE51-5086-4EE0-9D50-F865035644F4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75E511BF-C06C-4963-90E6-7D665232239F}
+	EndGlobalSection
+EndGlobal
