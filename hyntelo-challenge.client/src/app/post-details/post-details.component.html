@@ -1,5 +1,5 @@
 <app-user-logged></app-user-logged>
-<div class="post-details">
+<div class="post-details" *ngIf="!loading; else loadingTemplate">
   <div class="post-item-image">
     <!-- Placeholder for Image -->
     <img src="placeholder.svg" alt="Post Image" width="100">
@@ -17,7 +17,7 @@
       <div class="comment-container">
         <div class="comment-avatar">
           <div class="avatar-circle">
-            <span class="initials">{{ getInitials(comment.authorName) }}</span>
+            <span class="initials">{{ comment.initials }}</span>
           </div>
         </div>
         <div class="comment-details">
@@ -31,3 +31,9 @@
 
   <app-add-comment (commentAdded)="onCommentAdded($event)"></app-add-comment>
 </div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

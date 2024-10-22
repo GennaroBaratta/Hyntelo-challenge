@@ -31,7 +31,7 @@ namespace Hyntelo_challenge.Server.Repositories
                             UserId = post.UserId,
                             Title = post.Title,
                             Body = post.Body.Length > 50 ? post.Body.Substring(0, 500) + "..." : post.Body, // Body preview (first 50 characters),
-                            AuthorName = user.Name,
+                            AuthorName = user.Username,
                         };
 
             var totalCount = await query.CountAsync();
@@ -58,7 +58,7 @@ namespace Hyntelo_challenge.Server.Repositories
                             UserId = post.UserId,
                             Title = post.Title,
                             Body = post.Body,
-                            AuthorName = user.Name,
+                            AuthorName = user.Username,
                         };
 
             return await query.FirstAsync();

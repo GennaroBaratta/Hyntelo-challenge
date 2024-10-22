@@ -8,3 +8,8 @@
     <button mat-raised-button color="" type="submit" [disabled]="!commentForm.value.body">Submit</button>
   </form>
 </div>
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

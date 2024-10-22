@@ -4,27 +4,12 @@
   padding: 20px;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-control {
+form  * {
   width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
-.btn-primary {
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #007bff;
-  border: none;
-  color: #fff;
-  cursor: pointer;
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
 }
-
-  .btn-primary:disabled {
-    background-color: #ccc;
-  }

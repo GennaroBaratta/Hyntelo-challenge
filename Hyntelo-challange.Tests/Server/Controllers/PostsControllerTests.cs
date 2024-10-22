@@ -1,4 +1,5 @@
 ﻿using Hyntelo_challenge.Server.Controllers;
+using Hyntelo_challenge.Server.DTO;
 using Hyntelo_challenge.Server.Models;
 using Hyntelo_challenge.Server.Repositories;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,15 @@ namespace Hyntelo_challange.Tests.Server.Controllers
     public class PostsControllerTests
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
-        private readonly Mock<IRepository<Post>> _mockPostRepository;
-        private readonly Mock<IRepository<Comment>> _mockCommentRepository;
+        private readonly Mock<IPostRepository> _mockPostRepository;
+        private readonly Mock<ICommentRepository> _mockCommentRepository;
         private readonly PostsController _controller;
 
         public PostsControllerTests()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockPostRepository = new Mock<IRepository<Post>>();
-            _mockCommentRepository = new Mock<IRepository<Comment>>();
+            _mockPostRepository = new Mock<IPostRepository>();
+            _mockCommentRepository = new Mock<ICommentRepository>();
 
             // Setup UnitOfWork to return our mock repositories
             _mockUnitOfWork.Setup(uow => uow.PostRepository)
@@ -38,12 +39,11 @@ namespace Hyntelo_challange.Tests.Server.Controllers
         [Fact]
         public async Task GetPosts_ReturnsOkResult_WithPaginatedPosts()
         {
-            // Arrange
-            var expectedPosts = new PaginatedResult<Post>
+            var expectedPosts = new PaginatedResult<PostDto>
             {
-                Items = new List<Post>
+                Items = new List<PostDto>
                 {
-                    new Post { Id = 1, Title = "Test Post", Body="Test Body" }
+                    new PostDto { Id = 1, Title = "Test Post", Body="Test Body" }
                 },
                 TotalCount = 1,
                 PageNumber = 1,
@@ -59,7 +59,7 @@ namespace Hyntelo_challange.Tests.Server.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnedPosts = Assert.IsType<PaginatedResult<Post>>(okResult.Value);
+            var returnedPosts = Assert.IsType<PaginatedResult<PostDto>>(okResult.Value);
             Assert.Equal(expectedPosts.Items.Count, returnedPosts.Items.Count);
             Assert.Equal(expectedPosts.TotalCount, returnedPosts.TotalCount);
         }
@@ -68,7 +68,7 @@ namespace Hyntelo_challange.Tests.Server.Controllers
         public async Task GetPost_WithValidId_ReturnsOkResult()
         {
             // Arrange
-            var expectedPost = new Post { Id = 1, Title = "Test Post", Body = "Test Body" };
+            var expectedPost = new PostDto { Id = 1, Title = "Test Post", Body = "Test Body" };
             _mockPostRepository
                 .Setup(repo => repo.GetByIdAsync(1))
                 .ReturnsAsync(expectedPost);
@@ -78,7 +78,7 @@ namespace Hyntelo_challange.Tests.Server.Controllers
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnedPost = Assert.IsType<Post>(okResult.Value);
+            var returnedPost = Assert.IsType<PostDto>(okResult.Value);
             Assert.Equal(expectedPost.Id, returnedPost.Id);
         }
 
@@ -88,7 +88,7 @@ namespace Hyntelo_challange.Tests.Server.Controllers
             // Arrange
             _mockPostRepository
                 .Setup(repo => repo.GetByIdAsync(99))
-                .ReturnsAsync((Post?)null);
+                .ReturnsAsync((PostDto?)null);
 
             // Act
             var result = await _controller.GetPost(99);
@@ -123,42 +123,40 @@ namespace Hyntelo_challange.Tests.Server.Controllers
         {
             // Arrange
             var postId = 1;
-            var expectedPost = new Post { Id = postId, Title = "New Post", Body = "Test Body" };
-            var expectedComments = new PaginatedResult<Comment>
+            var expectedPost = new PostDto { Id = postId, Title = "New Post", Body = "Test Body" };
+            var expectedComments = new PaginatedResult<CommentDto>
             {
-                Items = new List<Comment>
+                Items = new List<CommentDto>
                 {
-                    new Comment { Id = 1, PostId = postId,Post= expectedPost, Body = "Test Body" }
+                    new CommentDto { Id = 1, PostId = postId, Body = "Test Body" }
                 },
                 TotalCount = 1,
                 PageNumber = 1,
                 PageSize = 10
             };
 
+            _mockCommentRepository
+                .Setup(repo => repo.GetAllAsync(postId, It.IsAny<int>(), It.IsAny<int>()))
+                .ReturnsAsync(expectedComments);
+
             _mockPostRepository
                 .Setup(repo => repo.GetByIdAsync(postId))
                 .ReturnsAsync(expectedPost);
 
-            _mockCommentRepository
-                .Setup(repo => repo.GetAllAsync(
-                    It.IsAny<Expression<Func<Comment, bool>>>(),
-                    It.IsAny<int>(),
-                    It.IsAny<int>()))
-                .ReturnsAsync(expectedComments);
 
             // Act
             var result = await _controller.GetComments(postId);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnedComments = Assert.IsType<PaginatedResult<Comment>>(okResult.Value);
+            var returnedComments = Assert.IsType<PaginatedResult<CommentDto>>(okResult.Value);
             Assert.Equal(expectedComments.Items.Count, returnedComments.Items.Count);
         }
 
         [Fact]
         public async Task GetComments_WithInvalidPostId_ReturnsNotFound()
         {
-            Post? nullPost = null;
+            PostDto? nullPost = null;
             _mockPostRepository
                 .Setup(repo => repo.GetByIdAsync(99))
                 .ReturnsAsync(nullPost);

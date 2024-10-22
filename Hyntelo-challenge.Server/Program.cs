@@ -105,7 +105,8 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<BlogDbContext>();
     if (!context.Posts.Any())
     {
-        context.Users.Add(new User { Id = 1, Username = "admin", Password = "password", Name = "Administrator" });
+        context.Users.Add(new User { Id = 1, Username = "admin", Password = "password" });
+        context.Users.Add(new User { Id = 2, Username = "user", Password = "passuser" });
 
         var posts = new List<Post>();
         for (int i = 1; i <= 50; i++)

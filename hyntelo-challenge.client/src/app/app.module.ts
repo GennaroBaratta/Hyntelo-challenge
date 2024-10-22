@@ -5,9 +5,13 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-//import { PostListComponent } from './post-list/post-list.component';
-//import { AddPostComponent } from './add-post/add-post.component';
-//import { PostDetailComponent } from './post-detail/post-detail.component';
+import { PostDetailsComponent } from './post-details/post-details.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { UserLoggedComponent } from './user-logged/user-logged.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
+import { AddPostComponent } from './add-post/add-post.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -15,13 +19,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { PostListComponent } from './post-list/post-list.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { UserLoggedComponent } from './user-logged/user-logged.component';
-import { PaginationComponent } from './pagination/pagination.component';
-import { PostDetailsComponent } from './post-details/post-details.component';
-import { AddCommentComponent } from './add-comment/add-comment.component';
-import { AddPostComponent } from './add-post/add-post.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -50,6 +49,7 @@ import { AddPostComponent } from './add-post/add-post.component';
     MatCardModule,
     MatProgressSpinnerModule,
     NgxSkeletonLoaderModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

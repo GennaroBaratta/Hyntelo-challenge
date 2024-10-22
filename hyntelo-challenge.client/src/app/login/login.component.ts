@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../services/notification.service';  // Import the NotificationService
 
 @Component({
   selector: 'app-login',
@@ -15,8 +17,27 @@ export class LoginComponent {
   loading: boolean = false;
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private cookieService: CookieService) { }
+  /**
+   * Constructor for LoginComponent.
+   * 
+   * @param authService - Service used to authenticate the user.
+   * @param router - Router used for navigation after successful login.
+   * @param cookieService - Service used to handle cookies (for "remember me" functionality).
+   * @param snackBar - Angular Material service for showing error messages.
+   */
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cookieService: CookieService,
+    private snackBar: MatSnackBar,
+    private notification: NotificationService
+  ) { }
 
+  /**
+   * Handles the login process by authenticating the user.
+   * If the credentials are correct, the user is redirected to the posts page.
+   * If 'Remember Me' is selected, a cookie is set for persistent login.
+   */
   async login(): Promise<void> {
     this.loading = true;
     this.errorMessage = '';
@@ -33,12 +54,12 @@ export class LoginComponent {
           // Navigate to posts page upon successful login
           this.router.navigate(['/posts']);
         } else {
-          this.errorMessage = 'Invalid credentials';
+          this.notification.showError('Invalid credentials');
         }
       },
       (error) => {
         this.loading = false;
-        this.errorMessage = 'An error occurred. Please try again.';
+        this.notification.showError('An error occurred. Please try again.');
       }
     );
   }

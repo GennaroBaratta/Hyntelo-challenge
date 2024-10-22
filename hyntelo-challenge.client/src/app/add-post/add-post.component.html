@@ -3,15 +3,29 @@
   <h2>New Post</h2>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="title">Title</label>
-      <input id="title" type="text" formControlName="title" class="form-control" placeholder="Title" />
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Title</mat-label>
+        <input matInput id="title" type="text" formControlName="title" placeholder="Title" />
+        <mat-error *ngIf="postForm.get('title')?.hasError('required')">Title is required</mat-error>
+      </mat-form-field>
     </div>
 
     <div class="form-group">
-      <label for="body">Body</label>
-      <textarea id="body" formControlName="body" class="form-control" rows="5" placeholder="Write your post..."></textarea>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Body</mat-label>
+        <textarea matInput id="body" formControlName="body" rows="5" placeholder="Write your post..."></textarea>
+        <mat-error *ngIf="postForm.get('body')?.hasError('required')">Body is required</mat-error>
+      </mat-form-field>
     </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="postForm.invalid">Submit</button>
+    <div class="form-group">
+      <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid || loading">
+        Submit
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="loading-indicator">
+      <mat-spinner></mat-spinner>
+    </div>
   </form>
 </div>

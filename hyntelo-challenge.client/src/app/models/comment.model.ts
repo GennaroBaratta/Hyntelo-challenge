@@ -6,4 +6,5 @@ export interface Comment {
   userId: number;
   authorName: string;
   body: string;
+  initials?: string;
 }

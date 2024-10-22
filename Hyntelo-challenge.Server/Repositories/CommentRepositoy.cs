@@ -32,7 +32,7 @@ namespace Hyntelo_challenge.Server.Repositories
                             PostId = comment.PostId,
                             UserId = comment.UserId,
                             Body = comment.Body,
-                            AuthorName = user.Name,
+                            AuthorName = user.Username,
                         };
 
             var totalCount = await query.CountAsync();
