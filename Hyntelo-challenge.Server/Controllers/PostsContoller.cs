@@ -1,6 +1,9 @@
-﻿using Hyntelo_challenge.Server.Models;
+﻿using Hyntelo_challenge.Server.DTO;
+using Hyntelo_challenge.Server.Models;
 using Hyntelo_challenge.Server.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace Hyntelo_challenge.Server.Controllers
 {
@@ -15,17 +18,20 @@ namespace Hyntelo_challenge.Server.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<PaginatedResult<Post>>> GetPosts(
+
+        [HttpGet(Name = "GetPosts")]
+        [Authorize]
+        public async Task<ActionResult<PaginatedResult<PostDto>>> GetPosts(
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            
+
             return Ok(await _unitOfWork.PostRepository.GetAllAsync(page, pageSize));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        [Authorize]
+        public async Task<ActionResult<PostDto>> GetPost(int id)
         {
             var post = await _unitOfWork.PostRepository.GetByIdAsync(id);
             if (post == null)
@@ -34,6 +40,7 @@ namespace Hyntelo_challenge.Server.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Post>> CreatePost(Post post)
         {
             var created = await _unitOfWork.PostRepository.AddAsync(post);
@@ -41,10 +48,11 @@ namespace Hyntelo_challenge.Server.Controllers
         }
 
         [HttpGet("{postId}/comments")]
+        [Authorize]
         public async Task<ActionResult<PaginatedResult<Comment>>> GetComments(
-       int postId,
-       [FromQuery] int page = 1,
-       [FromQuery] int pageSize = 10)
+            int postId,
+           [FromQuery] int page = 1,
+           [FromQuery] int pageSize = 10)
         {
             // First verify that the post exists
             var post = await _unitOfWork.PostRepository.GetByIdAsync(postId);
@@ -55,7 +63,7 @@ namespace Hyntelo_challenge.Server.Controllers
 
             // Get comments for the specific post with pagination
             var paginatedComments = await _unitOfWork.CommentRepository.GetAllAsync(
-                c => c.PostId == postId,
+                postId,
                 page,
                 pageSize);
 
@@ -63,6 +71,7 @@ namespace Hyntelo_challenge.Server.Controllers
         }
 
         [HttpGet("{postId}/comments/{commentId}")]
+        [Authorize]
         public async Task<ActionResult<Comment>> GetComment(int postId, int commentId)
         {
             var comment = await _unitOfWork.CommentRepository.GetByIdAsync(commentId);
@@ -81,9 +90,9 @@ namespace Hyntelo_challenge.Server.Controllers
         }
 
         [HttpPost("{postId}/comments")]
+        [Authorize]
         public async Task<ActionResult<Comment>> AddComment(int postId, Comment comment)
         {
-            comment.PostId = postId;
             var created = await _unitOfWork.CommentRepository.AddAsync(comment);
             return CreatedAtAction(nameof(GetPost), new { id = postId }, created);
         }

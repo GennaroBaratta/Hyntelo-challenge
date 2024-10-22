@@ -1,0 +1,33 @@
+<app-user-logged></app-user-logged>
+<div class="post-details">
+  <div class="post-item-image">
+    <!-- Placeholder for Image -->
+    <img src="placeholder.svg" alt="Post Image" width="100">
+  </div>
+
+  <div class="post">
+    <h1>{{ post.title }}</h1>
+    <p class="author">by {{ post.authorName }}</p>
+    <p class="body">{{ post.body }}</p>
+  </div>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <div *ngFor="let comment of comments" class="comment">
+      <div class="comment-container">
+        <div class="comment-avatar">
+          <div class="avatar-circle">
+            <span class="initials">{{ getInitials(comment.authorName) }}</span>
+          </div>
+        </div>
+        <div class="comment-details">
+          <p class="comment-author">{{ comment.authorName }}</p>
+          <p class="comment-body">{{ comment.body }}</p>
+        </div>
+      </div>
+    </div>
+    <app-pagination [pages]="pages" [currentPage]="currentPage" (pageChanged)="onPageChanged($event)"></app-pagination>
+  </div>
+
+  <app-add-comment (commentAdded)="onCommentAdded($event)"></app-add-comment>
+</div>

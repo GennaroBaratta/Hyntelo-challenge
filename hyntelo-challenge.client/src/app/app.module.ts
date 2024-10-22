@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -13,12 +13,26 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PostListComponent } from './post-list/post-list.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { UserLoggedComponent } from './user-logged/user-logged.component';
+import { PaginationComponent } from './pagination/pagination.component';
+import { PostDetailsComponent } from './post-details/post-details.component';
+import { AddCommentComponent } from './add-comment/add-comment.component';
+import { AddPostComponent } from './add-post/add-post.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    //PostListComponent,
+    PostListComponent,
+    UserLoggedComponent,
+    PaginationComponent,
+    PostDetailsComponent,
+    AddCommentComponent,
+    AddPostComponent,
     //AddPostComponent,
     //PostDetailComponent
   ],
@@ -26,16 +40,21 @@ import { MatButtonModule } from '@angular/material/button';
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    NgxSkeletonLoaderModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
 
 

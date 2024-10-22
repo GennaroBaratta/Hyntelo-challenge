@@ -1,12 +1,14 @@
 ﻿using Hyntelo_challenge.Server.DB;
+using Hyntelo_challenge.Server.DTO;
 using Hyntelo_challenge.Server.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 
 namespace Hyntelo_challenge.Server.Repositories
 {
     public interface ICommentRepository : IRepository<Comment>
     {
-        Task<PaginatedResult<Comment>> GetCommentsWithUserInfoAsync(int postId, int page, int pageSize);
+        Task<PaginatedResult<CommentDto>> GetAllAsync(int postId, int page, int pageSize);
     }
 
     public class CommentRepository : Repository<Comment>, ICommentRepository
@@ -18,17 +20,20 @@ namespace Hyntelo_challenge.Server.Repositories
             _context = context;
         }
 
-        public async Task<PaginatedResult<Comment>> GetCommentsWithUserInfoAsync(int postId, int page, int pageSize)
+        public async Task<PaginatedResult<CommentDto>> GetAllAsync(int postId, int page, int pageSize)
         {
-            var query = _context.Comments
-                .Where(c => c.PostId == postId)
-                .Select(c => new Comment
-                {
-                    Id = c.Id,
-                    PostId = c.PostId,
-                    UserId = c.UserId,
-                    Body = c.Body,
-                });
+            var query = from comment in _context.Comments
+                        where comment.PostId == postId
+                        join user in _context.Users on comment.UserId equals user.Id
+                        //orderby comment.Id descending
+                        select new CommentDto
+                        {
+                            Id = comment.Id,
+                            PostId = comment.PostId,
+                            UserId = comment.UserId,
+                            Body = comment.Body,
+                            AuthorName = user.Name,
+                        };
 
             var totalCount = await query.CountAsync();
             var items = await query
@@ -36,7 +41,7 @@ namespace Hyntelo_challenge.Server.Repositories
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PaginatedResult<Comment>
+            return new PaginatedResult<CommentDto>
             {
                 Items = items,
                 TotalCount = totalCount,

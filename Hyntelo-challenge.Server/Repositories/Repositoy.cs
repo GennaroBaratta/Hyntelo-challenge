@@ -10,6 +10,7 @@ namespace Hyntelo_challenge.Server.Repositories
         Task<PaginatedResult<T>> GetAllAsync(int page, int pageSize);
         Task<PaginatedResult<T>> GetAllAsync(Expression<Func<T, bool>> predicate, int page, int pageSize);
         Task<T?> GetByIdAsync(int id);
+        Task<T?> GetByIdAsync(string id);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
@@ -56,6 +57,11 @@ namespace Hyntelo_challenge.Server.Repositories
         }
 
         public async Task<T?> GetByIdAsync(int id)
+        {
+            return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<T?> GetByIdAsync(string id)
         {
             return await _dbSet.FindAsync(id);
         }

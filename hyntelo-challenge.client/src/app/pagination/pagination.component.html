@@ -1,0 +1,5 @@
+<div class="pagination-bar">
+  <a class="pagination-link" (click)="goToPreviousPage()">&lt;&lt; Prev</a>
+  <a *ngFor="let page of pages" class="pagination-link" (click)="goToPage(page)">{{ page }}</a>
+  <a class="pagination-link" (click)="goToNextPage()">Next &gt;&gt;</a>
+</div>

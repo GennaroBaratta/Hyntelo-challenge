@@ -5,39 +5,50 @@ namespace Hyntelo_challenge.Server.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Post> PostRepository { get; }
-        IRepository<Comment> CommentRepository { get; }
+        IPostRepository PostRepository { get; }
+        ICommentRepository CommentRepository { get; }
+        IUserRepository UserRepository { get; }
         Task SaveAsync();
     }
 
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BlogDbContext _context;
-        private IRepository<Post>? _postRepository;
-        private IRepository<Comment>? _commentRepository;
+        private IPostRepository? _postRepository;
+        private ICommentRepository? _commentRepository;
+        private IUserRepository? _userRepository;
 
         public UnitOfWork(BlogDbContext context)
         {
             _context = context;
         }
 
-        public IRepository<Post> PostRepository
+        public IPostRepository PostRepository
         {
             get
             {
-                _postRepository ??= new Repository<Post>(_context);
+                _postRepository ??= new PostRepository(_context);
                 return _postRepository;
             }
         }
 
-        public IRepository<Comment> CommentRepository
+        public ICommentRepository CommentRepository
         {
             get
             {
-                _commentRepository ??= new Repository<Comment>(_context);
+                _commentRepository ??= new CommentRepository(_context);
                 return _commentRepository;
             }
         }
+
+        public IUserRepository UserRepository {
+            get
+            {
+                _userRepository ??= new UserRepository(_context);
+                return _userRepository;
+            }
+        }
+
 
         public async Task SaveAsync()
         {

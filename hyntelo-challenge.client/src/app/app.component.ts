@@ -1,12 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
-}
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -14,24 +10,18 @@ interface WeatherForecast {
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  public forecasts: WeatherForecast[] = [];
-
-  constructor(private http: HttpClient) {}
-
-  ngOnInit() {
-    this.getForecasts();
-  }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
   title = 'hyntelo-challenge.client';
+
+  constructor(private http: HttpClient, private router: Router, private cookieService: CookieService, private authService: AuthService) { }
+
+  ngOnInit(): void {
+    const rememberMe = this.cookieService.get('rememberMe') === 'true';
+    const token = this.authService.getToken();
+
+    if (!(rememberMe && token)) {
+      this.router.navigate(['/login']);
+    } else if (this.router.url == '/') {
+      this.router.navigate(['/posts']);
+    }
+  }
 }

@@ -1,0 +1,8 @@
+<div class="logged-user-bar">
+  <div class="spacer"></div>
+  <div class="logged-user">
+    Welcome, {{ username$ | async }}
+    <img class="avatar" src="avatar-placeholder.png" alt="Avatar">
+    <button mat-button (click)="logout()">Log out</button>
+  </div>
+</div>

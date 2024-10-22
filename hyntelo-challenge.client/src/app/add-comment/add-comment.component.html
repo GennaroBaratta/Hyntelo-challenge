@@ -1,0 +1,10 @@
+<div class="add-comment">
+  <h3>Add a comment</h3>
+  <form [formGroup]="commentForm" (ngSubmit)="addComment()">
+    <div class="form-group">
+      <label for="body">Body</label>
+      <textarea id="body" formControlName="body" placeholder="Write your comment here..."></textarea>
+    </div>
+    <button mat-raised-button color="" type="submit" [disabled]="!commentForm.value.body">Submit</button>
+  </form>
+</div>

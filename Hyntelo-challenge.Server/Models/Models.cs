@@ -6,7 +6,6 @@
         public int UserId { get; set; }
         public required string Title { get; set; }
         public required string Body { get; set; }
-        public virtual ICollection<Comment>? Comments { get; set; }
     }
 
     public class Comment
@@ -15,7 +14,6 @@
         public int PostId { get; set; }
         public int UserId { get; set; }
         public required string Body { get; set; }
-        public virtual Post? Post { get; set; }
     }
 
     public class User
